@@ -1,22 +1,34 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Kanban from '../views/Kanban.vue'
+import SignIn from '../views/SignIn.vue'
+import SignUp from '../views/SignUp.vue'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Kanban',
+    component: Kanban,
+    beforeEnter: async (to, from, next) => {
+      const token = localStorage.getItem('token');
+      if(token) {
+        next();
+      } else {
+        next({name: 'Sign In'})
+      }
+    }
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/sign_in',
+    name: 'Sign In',
+    component: SignIn
+  },
+  {
+    path: '/sign_up',
+    name: 'Sign Up',
+    component: SignUp
   }
 ]
 
